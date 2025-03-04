@@ -10,5 +10,6 @@ namespace MvcMovie.Models
         public int PersonId { get; set; }
         public required string FullName { get; set; }
         public required string Address { get; set; }
+        public int Age { get; set; }
     }
 }

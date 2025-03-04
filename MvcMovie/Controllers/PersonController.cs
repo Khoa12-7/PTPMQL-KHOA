@@ -27,7 +27,7 @@ namespace MvcMovie.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,FullName,Address")] Person person)
+        public async Task<IActionResult> Create([Bind("PersonId,FullName,Address,Age")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -38,14 +38,14 @@ namespace MvcMovie.Controllers
             return View(person);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (!int.TryParse(id, out int personId) || _context.Person == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person.FindAsync(personId);
+            var person = await _context.Person.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -55,9 +55,9 @@ namespace MvcMovie.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PersonId,FullName,Address")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonId,FullName,Address,Age")] Person person)
         {
-            if (!int.TryParse(id, out int personId) || personId != person.PersonId)
+            if (id != person.PersonId)
             {
                 return NotFound();
             }
@@ -71,7 +71,7 @@ namespace MvcMovie.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(personId))
+                    if (!PersonExists(person.PersonId))
                     {
                         return NotFound();
                     }
@@ -85,14 +85,14 @@ namespace MvcMovie.Controllers
             return View(person);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (!int.TryParse(id, out int personId) || _context.Person == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var person = await _context.Person.FirstOrDefaultAsync(m => m.PersonId == personId);
+            var person = await _context.Person.FirstOrDefaultAsync(m => m.PersonId == id);
             if (person == null)
             {
                 return NotFound();
@@ -102,14 +102,14 @@ namespace MvcMovie.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            if (!int.TryParse(id, out int personId) || _context.Person == null)
+            if (id == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Person' is null.");
+                return Problem("Invalid person ID.");
             }
 
-            var person = await _context.Person.FindAsync(personId);
+            var person = await _context.Person.FindAsync(id);
             if (person != null)
             {
                 _context.Person.Remove(person);
@@ -120,7 +120,7 @@ namespace MvcMovie.Controllers
 
         private bool PersonExists(int id)
         {
-            return (_context.Person?.Any(e => e.PersonId == id)).GetValueOrDefault();
+            return _context.Person.Any(e => e.PersonId == id);
         }
     }
 }
