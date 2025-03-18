@@ -1,11 +1,15 @@
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MvcMovie.Models
 {
     public class HeThongPhanPhoi
     {
-        public int MaHTPP { get; set; } = 0;
-        public string TenHTPP { get; set; } = "";
-        public List<DaiLy> DaiLys { get; set; } = new List<DaiLy>();
+        [Key]
+        [Required]
+        public string? MaHTPP { get; set; }  // Mã hệ thống phân phối (Primary Key)
+
+        [Required]
+        [StringLength(255)]
+        public string? TenHTPP { get; set; }  // Tên hệ thống phân phối
     }
 }

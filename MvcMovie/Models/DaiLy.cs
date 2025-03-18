@@ -1,23 +1,33 @@
-using System; // Nhớ thêm using System nếu bạn dùng DateTime
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MvcMovie.Models // Thay YourNamespace bằng namespace của bạn
+namespace MvcMovie.Models
 {
     public class DaiLy
     {
-        public int MaDaiLy { get; set; } = 0;
-        public string TenDaiLy { get; set; } = "";
-        public string DiaChi { get; set; } = "";
-        public string NguoiDaiDien { get; set; } = "";
-        public string DienThoai { get; set; } = "";
+        [Key]
+        [Required]
+        public string? MaDaiLy { get; set; }
 
-        public int MaHTPP { get; set; } // Khóa ngoại
+        [Required]
+        [StringLength(255)]
+        public string? TenDaiLy { get; set; }
 
-        public HeThongPhanPhoi HeThongPhanPhoi { get; set; } // Thuộc tính tham chiếu
+        [Required]
+        [StringLength(500)]
+        public string? DiaChi { get; set; }
 
-        // Cách 1: Khởi tạo HeThongPhanPhoi trong constructor
-        public DaiLy()
-        {
-            HeThongPhanPhoi = new HeThongPhanPhoi(); // Hoặc khởi tạo với dữ liệu cụ thể nếu cần
-        }
+        [Required]
+        [StringLength(255)]
+        public string? NguoiDaiDien { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string? DienThoai { get; set; }
+
+        [Required]
+        public string? MaHTPP { get; set; }
+
+        [ForeignKey("MaHTPP")] // sử dụng Foreignkey để liên kết các thuộc tính bên HeThongPhanPhoi qua DaiLy
+        public HeThongPhanPhoi? HeThongPhanPhoi { get; set; }
     }
 }

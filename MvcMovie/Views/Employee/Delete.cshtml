@@ -1,0 +1,9 @@
+@model MvcMovie.Models.Employee
+
+<h2>Xóa Nhân Viên</h2>
+<p>Bạn có chắc muốn xóa nhân viên <strong>@Model.FullName</strong> không?</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="PersonId" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+</form>

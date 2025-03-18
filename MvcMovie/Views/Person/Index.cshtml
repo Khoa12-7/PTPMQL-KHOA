@@ -1,33 +1,37 @@
 @model IEnumerable<MvcMovie.Models.Person>
+<pre>@Html.Raw(Json.Serialize(Model))</pre>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách Người dùng";
 }
 
-<h1>Index</h1>
+<h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Thêm Mới</a>
 </p>
+
 <table class="table table-bordered">
     <thead class="table-dark">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.FullName)</th>
-            <th>@Html.DisplayNameFor(model => model.Address)</th>
-            <th>@Html.DisplayNameFor(model => model.Age)</th>
-            <th class="text-center">Actions</th>
+            <th>ID</th>
+            <th>Họ và Tên</th>
+            <th>Địa chỉ</th>
+            <th>Email</th>
+            <th class="text-center">Hành động</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                <td>@Html.DisplayFor(modelItem => item.Age)</td>
+                <td>@item.PersonId</td>
+                <td>@item.FullName</td>
+                <td>@item.Address</td>
+                <td>@item.Gmail</td>
                 <td class="text-center">
-                    <a asp-action="Edit" asp-route-id="@item.PersonId" class="btn btn-primary btn-sm">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.PersonId" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.PersonId" class="btn btn-primary btn-sm">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.PersonId" class="btn btn-danger btn-sm">Xóa</a>
                 </td>
             </tr>
         }
